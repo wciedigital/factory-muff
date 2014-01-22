@@ -191,6 +191,15 @@ class FactoryMuff
             }
         }
 
+
+        // Decimal type
+        // Takes two params under the form 'min,max'
+        // Returns random decimal
+        if ( is_string($kind) && substr( $kind, 0, 8 ) == 'decimal|' ) {
+            $params = array_map('intval', explode(',', substr( $kind, 8 )) )
+            $result = mt_rand($params[0] * 10, $params[1] * 10) / 10;
+        }
+
         // Overwise interpret the kind and 'generate' some
         // crap.
         switch ( $kind ) {
@@ -223,7 +232,6 @@ class FactoryMuff
         case 'boolean':
             $result = rand(0,1) == 1;
             break;
-
 
         // Returns the original string or number
         default:
