@@ -196,8 +196,11 @@ class FactoryMuff
         // Takes two params under the form 'min,max'
         // Returns random decimal
         if ( is_string($kind) && substr( $kind, 0, 8 ) == 'decimal|' ) {
-            $params = array_map('intval', explode(',', substr( $kind, 8 )) )
-            $result = mt_rand($params[0] * 10, $params[1] * 10) / 10;
+            $params = array_map('intval', explode(',', substr( $kind, 8 )) );
+            if (count($params) !== 2) {
+                throw new \Exception("$model: Wrong parameters supplied to 'decimal'");
+            }
+            return mt_rand($params[0] * 10, $params[1] * 10) / 10;
         }
 
         // Overwise interpret the kind and 'generate' some
